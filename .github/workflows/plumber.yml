@@ -1,0 +1,58 @@
+name: Plumber
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions: read-all
+
+jobs:
+  plumber:
+    name: Plumber - CI/CD Compliance
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+
+      - name: Run Plumber
+        uses: getplumber/plumber@a0658c7fbd82163d75803cce492d18e50ef71afd # v0.3.68
+        with:
+          sarif: plumber-results.sarif
+          output: plumber-results.json
+          pbom-cyclonedx: plumber-pbom.cdx.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Plumber SARIF
+        uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4
+        if: always() && hashFiles('plumber-results.sarif') != ''
+        with:
+          sarif_file: plumber-results.sarif
+          category: plumber-supply-chain
+
+      - name: Upload Plumber artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always() && hashFiles('plumber-results.json') != ''
+        with:
+          name: plumber-report
+          path: |
+            plumber-results.json
+            plumber-pbom.cdx.json
+
+      - name: Plumber Gate (conformite >= 90% requise)
+        if: hashFiles('plumber-results.json') != ''
+        run: |
+          SCORE=$(jq '.compliance' plumber-results.json)
+          echo "Plumber compliance: ${SCORE}%"
+          if [ "$SCORE" -lt 90 ]; then
+            echo "::error::Plumber compliance ${SCORE}% < 90%% (security gate)"
+            exit 1
+          fi
