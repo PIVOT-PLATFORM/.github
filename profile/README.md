@@ -8,25 +8,26 @@ Rendre accessible à tous (associations, TPE/PME, entreprises) des outils collab
 
 ## Repositories
 
+### Socle
+
 | Repo | Description | Stack |
 |------|-------------|-------|
 | [pivot-core](https://github.com/PIVOT-PLATFORM/pivot-core) | Backend API REST · BDD · Sécurité · Système de modules | Java 25 · Spring Boot 4 · PostgreSQL · Liquibase |
 | [pivot-ui](https://github.com/PIVOT-PLATFORM/pivot-ui) | Frontend réactif · Modules lazy-loaded · WCAG 2.1 AA | Angular 22 · TypeScript · SCSS · Vitest · Playwright |
-| [pivot-docs](https://github.com/PIVOT-PLATFORM/pivot-docs) | Documentation générale du projet | Markdown |
+| [pivot-docs](https://github.com/PIVOT-PLATFORM/pivot-docs) | Documentation générale, ADR, backlog | Markdown |
+| pivot-design-system *(à venir)* | Angular CDK (a11y) + SCSS BEM custom · composants, Storybook | Angular CDK · SCSS |
 
----
+### Domaines (phase 3)
 
-## Modules prévus
+| Repo | Description | Stack |
+|------|-------------|-------|
+| [pivot-pilotage-core](https://github.com/PIVOT-PLATFORM/pivot-pilotage-core) / [-ui](https://github.com/PIVOT-PLATFORM/pivot-pilotage-ui) | Roadmap/Gantt, portefeuille de projets, ADR projet | Java 25 · Spring Boot 4 / Angular |
+| [pivot-agilite-core](https://github.com/PIVOT-PLATFORM/pivot-agilite-core) / [-ui](https://github.com/PIVOT-PLATFORM/pivot-agilite-ui) | Capacity planning, daily standup, scrum poker | Java 25 · Spring Boot 4 / Angular |
+| [pivot-collaboratif-core](https://github.com/PIVOT-PLATFORM/pivot-collaboratif-core) / [-ui](https://github.com/PIVOT-PLATFORM/pivot-collaboratif-ui) | Whiteboard, quiz, sessions live, formulaires | Java 25 · Spring Boot 4 / Angular |
 
-| Module | Description |
-|--------|-------------|
-| `whiteboard` | Tableau blanc collaboratif temps réel |
-| `session` | Sessions live — QUIZ, POLL, WORDCLOUD, BRAINSTORM, Q&A |
-| `roadmap` | Roadmap / Gantt intégré |
-| `survey` | Système de sondage |
-| `quiz` | Quiz interactif gamifié |
-
-Chaque module est **activable individuellement** par les administrateurs de tenant.
+Chaque module est **activable individuellement** par les administrateurs de tenant. Les repos domaines
+partagent le même schéma PostgreSQL (isolé par schéma dédié) et consomment `pivot-core-starter` /
+`@pivot/ui-core` publiés par le Socle.
 
 ---
 
