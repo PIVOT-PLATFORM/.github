@@ -16,10 +16,12 @@ Les fichiers ici s'appliquent à tous les repositories de l'organisation qui n'o
 
 ## Repositories spécifiques
 
-Les repos `pivot-core` et `pivot-ui` ont leurs propres fichiers qui **surchargent** ceux-ci.
+`pivot-core`, `pivot-ui`, `pivot-docs` et `pivot-collaboratif-core`/`-ui` ont leurs propres fichiers
+qui **surchargent** ceux-ci. `pivot-pilotage-core`/`-ui` et `pivot-agilite-core`/`-ui` n'en ont pas
+encore (scaffoldés récemment, voir leur `TODO-SETUP.md`) — ce sont les fichiers de ce repo qui
+s'appliquent pour l'instant.
 
 ## Protection
 
-- `main` : branch protection activée — review obligatoire (@ApoSkunz)
-- CODEOWNERS : tout changement nécessite une review
+- CODEOWNERS : tout changement nécessite une review (@ApoSkunz, @0bno, @Destinea, @tellebma, @leo-brgn)
 - Plumber : conformité CI/CD vérifiée sur les workflows de ce repo
