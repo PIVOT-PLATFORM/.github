@@ -28,6 +28,11 @@ jobs:
           sarif: plumber-results.sarif
           output: plumber-results.json
           pbom-cyclonedx: plumber-pbom.cdx.json
+          # Seuil aligné sur le gate explicite ci-dessous (>= 90 %, standard plateforme :
+          # pivot-core/pivot-ui/repos module). Sans cet input, le défaut de l'action (100 %)
+          # faisait échouer le job AVANT le step « Plumber Gate », le rendant inopérant.
+          # Décision utilisateur 2026-07-13 : harmoniser à 90.
+          threshold: 90
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
