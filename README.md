@@ -19,7 +19,8 @@ Les fichiers ici s'appliquent à tous les repositories de l'organisation qui n'o
 `pivot-core`, `pivot-ui`, `pivot-docs` et `pivot-collaboratif-core`/`-ui` ont leurs propres fichiers
 qui **surchargent** ceux-ci. `pivot-pilotage-core`/`-ui` et `pivot-agilite-core`/`-ui` n'en ont pas
 encore (scaffoldés récemment, voir leur `TODO-SETUP.md`) — ce sont les fichiers de ce repo qui
-s'appliquent pour l'instant.
+s'appliquent pour l'instant. Idem pour `pivot-design-system`, `pivot-infra`, `pivot-benchmarks`
+et les templates `pivot-template-core`/`-ui`.
 
 ## Protection
 

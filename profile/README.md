@@ -14,8 +14,8 @@ Rendre accessible à tous (associations, TPE/PME, entreprises) des outils collab
 |------|-------------|-------|
 | [pivot-core](https://github.com/PIVOT-PLATFORM/pivot-core) | Backend API REST · BDD · Sécurité · Système de modules | Java 25 · Spring Boot 4 · PostgreSQL · Liquibase |
 | [pivot-ui](https://github.com/PIVOT-PLATFORM/pivot-ui) | Frontend réactif · Modules lazy-loaded · WCAG 2.1 AA | Angular 22 · TypeScript · SCSS · Vitest · Playwright |
+| [pivot-design-system](https://github.com/PIVOT-PLATFORM/pivot-design-system) | Composants, tokens, patterns · Angular CDK (a11y) + SCSS BEM custom · aucune lib visuelle tierce (ADR-007) | Angular CDK · SCSS · Storybook |
 | [pivot-docs](https://github.com/PIVOT-PLATFORM/pivot-docs) | Documentation générale, ADR, backlog | Markdown |
-| pivot-design-system *(à venir)* | Angular CDK (a11y) + SCSS BEM custom · composants, Storybook | Angular CDK · SCSS |
 
 ### Domaines (phase 3)
 
@@ -28,6 +28,14 @@ Rendre accessible à tous (associations, TPE/PME, entreprises) des outils collab
 Chaque module est **activable individuellement** par les administrateurs de tenant. Les repos domaines
 partagent le même schéma PostgreSQL (isolé par schéma dédié) et consomment `pivot-core-starter` /
 `@pivot/ui-core` publiés par le Socle.
+
+### Outillage & Infrastructure
+
+| Repo | Description | Stack |
+|------|-------------|-------|
+| [pivot-template-core](https://github.com/PIVOT-PLATFORM/pivot-template-core) / [-ui](https://github.com/PIVOT-PLATFORM/pivot-template-ui) | Template repositories GitHub pour scaffolder un nouveau module (`pivot-{module}-core` / `-ui`) | Spring Boot 4 / Angular |
+| [pivot-infra](https://github.com/PIVOT-PLATFORM/pivot-infra) | Infrastructure as Code — provisioning de l'hôte GCP de référence (VM Docker Compose) | Terraform · GCP |
+| [pivot-benchmarks](https://github.com/PIVOT-PLATFORM/pivot-benchmarks) | Analyses fonctionnelles du marché, en entrée de conception des produits | Markdown · Docusaurus |
 
 ---
 
