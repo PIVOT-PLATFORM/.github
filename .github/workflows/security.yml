@@ -74,7 +74,19 @@ on:
       PLUMBER_TOKEN:
         required: false
 
-permissions: read-all
+# Le bloc workflow-level d'un reusable est validé par GitHub contre le plafond de
+# permissions accordé par l'appelant (stub `uses: .../security.yml@...`), PAS contre
+# les scopes disponibles sur le repo. `read-all` demande ici artifact-metadata,
+# attestations, checks, id-token, etc. — un plafond que les stubs appelants
+# n'accordent pas (ils donnent contents: read, actions: read, security-events:
+# write), d'où le `startup_failure` "workflow is requesting ... but is only
+# allowed ...". On aligne donc ce bloc sur l'union exacte des permissions
+# déclarées par les 4 jobs ci-dessous (gitleaks, codeql, semgrep, plumber) :
+# contents: read, actions: read (codeql), security-events: write.
+permissions:
+  contents: read
+  actions: read
+  security-events: write
 
 jobs:
   # -----------------------------------------
