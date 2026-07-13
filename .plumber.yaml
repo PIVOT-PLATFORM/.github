@@ -21,6 +21,8 @@ github:
       trustedGithubActions:
         - ossf/scorecard-action
         - getplumber/plumber
+        # Requis par le reusable security.yml (job gitleaks) désormais hébergé ici.
+        - gitleaks/gitleaks-action
 
     # --- Debug trace interdit ---
     pipelineMustNotEnableDebugTrace:

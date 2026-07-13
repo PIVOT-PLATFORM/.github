@@ -61,6 +61,18 @@ on:
         description: "Seuil de compliance Plumber (gate bloquant)."
         type: number
         default: 90
+    # Secrets déclarés explicitement (JAMAIS `secrets: inherit` côté appelant — interdit par le
+    # contrôle Plumber reusableWorkflowsMustNotInheritSecrets). Tous optionnels : un secret absent
+    # côté appelant est passé vide, le job dégrade proprement (gitleaks sans licence, etc.).
+    secrets:
+      GITLEAKS_LICENCE_KEY:
+        required: false
+      SEMGREP_APP_TOKEN:
+        required: false
+      PLUMBER_METADATA_TOKEN:
+        required: false
+      PLUMBER_TOKEN:
+        required: false
 
 permissions: read-all
 
