@@ -6,34 +6,44 @@ Rendre accessible à tous (associations, TPE/PME, entreprises) des outils collab
 
 ---
 
+## Architecture — Spring Modulith
+
+Depuis la bascule **Spring Modulith** (ADR-030), les domaines métier vivent comme **modules internes**
+du Socle plutôt que dans des repos séparés : `pivot-core` embarque les modules backend, `pivot-ui`
+embarque le design system et les libs frontend dans un workspace Angular unique. Un seul déploiement,
+frontières de modules vérifiées par tests, isolation des données conservée par schéma PostgreSQL.
+
 ## Repositories
 
 ### Socle
 
 | Repo | Description | Stack |
 |------|-------------|-------|
-| [pivot-core](https://github.com/PIVOT-PLATFORM/pivot-core) | Backend API REST · BDD · Sécurité · Système de modules | Java 25 · Spring Boot 4 · PostgreSQL · Liquibase |
-| [pivot-ui](https://github.com/PIVOT-PLATFORM/pivot-ui) | Frontend réactif · Modules lazy-loaded · WCAG 2.1 AA | Angular 22 · TypeScript · SCSS · Vitest · Playwright |
-| [pivot-design-system](https://github.com/PIVOT-PLATFORM/pivot-design-system) | Composants, tokens, patterns · Angular CDK (a11y) + SCSS BEM custom · aucune lib visuelle tierce (ADR-007) | Angular CDK · SCSS · Storybook |
+| [pivot-core](https://github.com/PIVOT-PLATFORM/pivot-core) | Backend API REST · BDD · Sécurité · Système de modules · **modules métier internes** (agilité, collaboratif) | Java 25 · Spring Boot 4 · Spring Modulith · PostgreSQL · Flyway |
+| [pivot-ui](https://github.com/PIVOT-PLATFORM/pivot-ui) | Frontend réactif · Modules lazy-loaded · WCAG 2.1 AA · **design system + libs modules** (workspace Angular) | Angular 22 · TypeScript · SCSS · Storybook · Vitest · Playwright |
 | [pivot-docs](https://github.com/PIVOT-PLATFORM/pivot-docs) | Documentation générale, ADR, backlog | Markdown |
 
-### Domaines (phase 3)
+### Modules métier
 
-| Repo | Description | Stack |
-|------|-------------|-------|
-| [pivot-pilotage-core](https://github.com/PIVOT-PLATFORM/pivot-pilotage-core) / [-ui](https://github.com/PIVOT-PLATFORM/pivot-pilotage-ui) | Roadmap/Gantt, portefeuille de projets, ADR projet | Java 25 · Spring Boot 4 / Angular |
-| [pivot-agilite-core](https://github.com/PIVOT-PLATFORM/pivot-agilite-core) / [-ui](https://github.com/PIVOT-PLATFORM/pivot-agilite-ui) | Capacity planning, daily standup, scrum poker | Java 25 · Spring Boot 4 / Angular |
-| [pivot-collaboratif-core](https://github.com/PIVOT-PLATFORM/pivot-collaboratif-core) / [-ui](https://github.com/PIVOT-PLATFORM/pivot-collaboratif-ui) | Whiteboard, quiz, sessions live, formulaires | Java 25 · Spring Boot 4 / Angular |
+Les domaines sont désormais des **modules internes** — voir ADR-030 :
 
-Chaque module est **activable individuellement** par les administrateurs de tenant. Les repos domaines
-partagent le même schéma PostgreSQL (isolé par schéma dédié) et consomment `pivot-core-starter` /
-`@pivot/ui-core` publiés par le Socle.
+| Domaine | Où | Fonctionnalités |
+|---------|-----|-----------------|
+| **Agilité** | module interne `pivot-core/agilite/` + workspace `pivot-ui` | Scrum poker, rétrospectives, roues d'équipe, daily standup |
+| **Collaboratif** | module interne `pivot-core/collaboratif/` + workspace `pivot-ui` | Tableau blanc temps réel, quiz, sessions live, formulaires |
+| **Pilotage** | extrait de PIVOT (produit distinct) | Roadmap/Gantt, portefeuille de projets — voir `pivot-core/PILOTAGE-HANDOFF.md` |
+
+Chaque module reste **activable individuellement** par les administrateurs de tenant et isole ses
+données dans un schéma PostgreSQL dédié.
+
+> Les anciens repos `pivot-{agilite,collaboratif,pilotage}-{core,ui}` et `pivot-design-system` sont
+> **archivés** (contenu absorbé par le Socle) et conservés en lecture seule pour l'historique.
 
 ### Outillage & Infrastructure
 
 | Repo | Description | Stack |
 |------|-------------|-------|
-| [pivot-template-core](https://github.com/PIVOT-PLATFORM/pivot-template-core) / [-ui](https://github.com/PIVOT-PLATFORM/pivot-template-ui) | Template repositories GitHub pour scaffolder un nouveau module (`pivot-{module}-core` / `-ui`) | Spring Boot 4 / Angular |
+| [pivot-cicd](https://github.com/PIVOT-PLATFORM/pivot-cicd) | Source unique des pipelines CI/CD (reusable workflows + composite actions) de l'organisation | GitHub Actions |
 | [pivot-infra](https://github.com/PIVOT-PLATFORM/pivot-infra) | Infrastructure as Code — provisioning de l'hôte GCP de référence (VM Docker Compose) | Terraform · GCP |
 | [pivot-benchmarks](https://github.com/PIVOT-PLATFORM/pivot-benchmarks) | Analyses fonctionnelles du marché, en entrée de conception des produits | Markdown · Docusaurus |
 
